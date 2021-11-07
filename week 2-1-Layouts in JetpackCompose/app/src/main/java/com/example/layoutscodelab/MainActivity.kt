@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.ViewDay
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,13 +34,48 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LayoutsCodelabTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    //Greeting("Android")
-                    PhotographerCard()
-                }
+                LayoutCodeLab()
             }
         }
+    }
+}
+
+
+@Composable
+fun LayoutCodeLab() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "LayoutsCodelab")
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        //Icon(Icons.Filled.Favorite, contentDescription = null)
+                        Icon(Icons.Filled.ViewDay, contentDescription = null)
+                    }
+                }
+            )
+        }
+    ) {
+        BodyContent(Modifier.padding(it).padding(8.dp))
+
+    }
+}
+
+@Composable
+fun BodyContent(modifier: Modifier = Modifier) {
+    Column(modifier) {
+        Text(text = "Hi, there!")
+        Text(text = "Thanks for going through the Layouts codelab")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LayoutCodeLabPreview() {
+    LayoutsCodelabTheme {
+        LayoutCodeLab()
     }
 }
 
@@ -55,12 +94,13 @@ fun DefaultPreview() {
 
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier) {
-    Row(modifier
-        .padding(8.dp)
-        .clip(RoundedCornerShape(4.dp))
-        .background(MaterialTheme.colors.surface)
-        .clickable(onClick= {  })
-        .padding(16.dp)
+    Row(
+        modifier
+            .padding(8.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colors.surface)
+            .clickable(onClick = { })
+            .padding(16.dp)
 
     ) {
         Surface(
