@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import kotlinx.coroutines.launch
 import coil.compose.rememberImagePainter
@@ -420,10 +421,49 @@ fun ConstraintLayoutContent() {
     }
 }
 
-@Preview
+private fun decoupledConstraints(margin: Dp): ConstraintSet {
+    return ConstraintSet {
+        val button = createRefFor("button")
+        val text = createRefFor("text")
+        constrain(button) {
+            top.linkTo(parent.top, margin = margin)
+        }
+        constrain(text) {
+            top.linkTo(button.bottom, margin = margin)
+        }
+    }
+}
+@Composable
+fun DecoupledConstraintLayout() {
+    BoxWithConstraints {
+        val constraints = if (maxWidth < maxHeight) {
+            decoupledConstraints(margin = 16.dp)
+        } else {
+            decoupledConstraints(margin = 32.dp)
+        }
+
+        ConstraintLayout(constraints) {
+            Button(
+                onClick = {},
+                modifier = Modifier.layoutId("button")
+            ) {
+                Text("Button")
+            }
+            Text("Text", modifier = Modifier.layoutId("text"))
+        }
+    }
+
+}
+
+@Preview(heightDp = 320)
 @Composable
 fun ConstraintLayoutContentPreview() {
     LayoutsCodelabTheme {
-        ConstraintLayoutContent()
+        Column {
+            ConstraintLayoutContent()
+
+            DecoupledConstraintLayout()
+
+        }
     }
 }
