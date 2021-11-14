@@ -151,7 +151,11 @@ fun BodyContent(modifier: Modifier = Modifier) {
     Column(modifier) {
         Text(text = "Hi, there!")
         Text(text = "Thanks for going through the Layouts codelab")
-        Row(modifier = modifier.horizontalScroll(rememberScrollState())) {
+        Row(modifier = modifier
+            .background(color = Color.LightGray)
+            .padding(16.dp)
+            .size(200.dp)
+            .horizontalScroll(rememberScrollState())) {
             StaggeredGrid {
                 for (topic in topics) {
                     Chip(modifier = Modifier.padding(8.dp), text = topic)
