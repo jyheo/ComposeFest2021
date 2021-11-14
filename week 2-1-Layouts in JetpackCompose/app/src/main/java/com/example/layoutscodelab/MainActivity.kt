@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import kotlinx.coroutines.launch
 import coil.compose.rememberImagePainter
 import com.example.layoutscodelab.ui.theme.LayoutsCodelabTheme
@@ -373,3 +374,31 @@ fun ChipPreview() {
     }
 }
 
+@Composable
+fun ConstraintLayoutContent() {
+    ConstraintLayout {
+        val (button, text) = createRefs()
+
+        Button(
+            onClick = {},
+            modifier = Modifier.constrainAs(button) {
+                top.linkTo(parent.top, margin = 16.dp)
+            }
+        ) {
+            Text("Button")
+        }
+
+        Text("Text", modifier = Modifier.constrainAs(text) {
+            top.linkTo(button.bottom, margin = 16.dp)
+            centerHorizontallyTo(parent)
+        })
+    }
+}
+
+@Preview
+@Composable
+fun ConstraintLayoutContentPreview() {
+    LayoutsCodelabTheme {
+        ConstraintLayoutContent()
+    }
+}
