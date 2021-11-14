@@ -47,7 +47,7 @@ fun TodoScreen(
 ) {
     Column {
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEntryInput(onItemComplete = onAddItem)
         }
 
         LazyColumn(
@@ -106,7 +106,7 @@ private fun randomTint(): Float {
 }
 
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
     val iconsVisible = text.isNotBlank()
@@ -116,17 +116,37 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         setText("")
     }
 
+    TodoItemInput(
+        text = text,
+        onTextChanged = setText,
+        icon = icon,
+        setIcon = setIcon,
+        submit = submit,
+        iconsVisible = iconsVisible
+    )
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    onTextChanged: (String) -> Unit,
+    icon: TodoIcon,
+    setIcon: (TodoIcon) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean
+) {
     Column {
-        Row(Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp)
+        Row(
+            Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
         ) {
             TodoInputText(
                 text = text,
-                onTextChange = setText,
+                onTextChange = onTextChanged,
                 modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp),
+                    .weight(1f)
+                    .padding(end = 8.dp),
                 onImeAction = submit
             )
             TodoEditButton(
@@ -144,11 +164,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     }
 }
 
-
-@Preview
-@Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
-
+/*
 @Preview
 @Composable
 fun PreviewTodoScreen() {
@@ -167,3 +183,4 @@ fun PreviewTodoRow() {
     val todo = remember { generateRandomTodoItem() }
     TodoRow(todo = todo, onItemClicked = {}, modifier = Modifier.fillMaxWidth())
 }
+*/
