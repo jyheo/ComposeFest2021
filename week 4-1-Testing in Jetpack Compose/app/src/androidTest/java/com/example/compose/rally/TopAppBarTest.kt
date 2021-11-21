@@ -4,6 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.example.compose.rally.ui.components.RallyTopAppBar
 import com.example.compose.rally.ui.theme.RallyTheme
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.*
@@ -13,8 +14,8 @@ class TopAppBarTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    @Test
-    fun rallyTopAppBarTest() {
+    @Before
+    fun setupTest() {
         val allScreens = RallyScreen.values().toList()
         composeTestRule.setContent {
             RallyTheme {
@@ -25,6 +26,10 @@ class TopAppBarTest {
                 )
             }
         }
+    }
+
+    @Test
+    fun rallyTopAppBarTest() {
         composeTestRule
             .onNodeWithContentDescription(RallyScreen.Accounts.name)
             .assertIsSelected()
@@ -45,4 +50,15 @@ class TopAppBarTest {
             )
             .assertExists()
     }
+
+    @Test
+    fun rallyClickOverviewTest() {
+        composeTestRule
+            .onNodeWithContentDescription(RallyScreen.Overview.name)
+            .performClick()
+        composeTestRule
+            .onNodeWithContentDescription(RallyScreen.Overview.name)
+            .assertIsDisplayed()
+    }
+
 }
