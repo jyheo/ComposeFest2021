@@ -25,14 +25,24 @@ class TopAppBarTest {
                 )
             }
         }
-        /*composeTestRule
+        composeTestRule
             .onNodeWithContentDescription(RallyScreen.Accounts.name)
-            .assertIsSelected()*/
+            .assertIsSelected()
 
-        composeTestRule.onRoot().printToLog("currentLabelExists")
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("currentLabelExists")
 
         composeTestRule
             .onNodeWithContentDescription(RallyScreen.Accounts.name)
+            .assertExists()
+
+        composeTestRule
+            .onNode(
+                hasText(RallyScreen.Accounts.name.uppercase(Locale.getDefault())) and
+                        hasParent(
+                            hasContentDescription(RallyScreen.Accounts.name)
+                        ),
+                useUnmergedTree = true
+            )
             .assertExists()
     }
 }
